@@ -17,9 +17,9 @@
                 "Ionide.Ionide-fsharp",
                 "ms-dotnettools.csharp",
                 "EditorConfig.EditorConfig",
-                //"GitHub.copilot",
-                //"GitHub.copilot-chat",
-                // "WakaTime.vscode-wakatime",
+                "GitHub.copilot",
+                "GitHub.copilot-chat",
+                "WakaTime.vscode-wakatime",
                 "eamodio.gitlens"
             ]
         }
@@ -29,7 +29,11 @@
         "ghcr.io/devcontainers/features/powershell:1": {}
     },
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
-    // "forwardPorts": [],
+    "forwardPorts": [
+        5000,
+        5001,
+        44390
+    ],
     // Use 'postCreateCommand' to run commands after the container is created.
-    "postStartCommand": "dotnet tool restore && dotnet paket restore && dotnet build"
+    "postStartCommand": "dotnet tool restore && dotnet build"
 }

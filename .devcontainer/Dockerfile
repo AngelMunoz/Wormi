@@ -6,3 +6,5 @@ ENV DOTNET_ROOT=/home/vscode/.dotnet
 ENV PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 
 RUN chown -R vscode:vscode $DOTNET_ROOT
+
+RUN dotnet workload install wasm-tools
