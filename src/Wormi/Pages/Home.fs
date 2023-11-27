@@ -27,7 +27,18 @@ type Home() =
           href "/about"
           "About"
         }
-
+        br
+        NavLink'() {
+          Match NavLinkMatch.All
+          href "/edit"
+          "New Post"
+        }
+        br
+        NavLink'() {
+          Match NavLinkMatch.All
+          href "/edit/a123-s23"
+          "Edit Post 'a123-s23'"
+        }
         br
 
         button {
