@@ -1,0 +1,38 @@
+{
+    "name": "Wormi",
+    "short_name": "Wormi",
+    "start_url": "/",
+    "display": "standalone",
+    "display_override": [
+        "window-controls-overlay"
+    ],
+    "icons": [],
+    "background_color": "#41403e",
+    "theme_color": "#41403e",
+    "orientation": "portrait",
+    "lang": "en-US",
+    "shortcuts": [
+        {
+            "name": "Create New Post",
+            "url": "/posts/new",
+            "description": "Start Writing a new post",
+            "short_name": "New Post"
+        }
+    ],
+    "protocol_handlers": [
+        {
+            "protocol": "web+wormi",
+            "url": "/posts/new"
+        }
+    ],
+    "share_target": {
+        "action": "/import",
+        "method": "POST",
+        "enctype": "multipart/form-data",
+        "params": {
+            "title": "title",
+            "text": "text",
+            "url": "url"
+        }
+    }
+}
