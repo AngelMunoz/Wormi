@@ -4,6 +4,8 @@ open System
 open Microsoft.AspNetCore.Components
 open Fun.Blazor
 
+open Wormi.Components
+
 [<Route "/edit/{PostId?}">]
 type Editor() =
   inherit FunBlazorComponent()
@@ -12,4 +14,4 @@ type Editor() =
   member val PostId = String.Empty with get, set
 
 
-  override self.Render() = article { h1 { $"Editor: %s{self.PostId}" } }
+  override self.Render() = Editor.Editor "Hello World"

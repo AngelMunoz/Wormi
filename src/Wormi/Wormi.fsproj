@@ -5,6 +5,7 @@
     <RunAOTCompilation>true</RunAOTCompilation>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Components/Editor.fs" />
     <Compile Include="Pages/Home.fs" />
     <Compile Include="Pages/About.fs" />
     <Compile Include="Pages/Edit.fs" />
@@ -14,6 +15,7 @@
   <ItemGroup>
     <PackageReference Include="Fun.Blazor.Wasm" Version="3.2.*" />
     <PackageReference Include="Fun.Blazor.Microsoft.Web" Version="8.0.0" />
+    <PackageReference Include="Markdig" Version="0.33.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.0" PrivateAssets="all" />
   </ItemGroup>
