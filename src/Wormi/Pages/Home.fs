@@ -2,11 +2,15 @@ namespace Wormi.Pages
 
 
 open Microsoft.AspNetCore.Components
+open Microsoft.AspNetCore.Components.Routing
 open Microsoft.Extensions.Logging
 
+open IcedTasks
 open FSharp.Data.Adaptive
 open Fun.Blazor
-open Microsoft.AspNetCore.Components.Routing
+
+
+open Wormi.Services
 
 [<Route "/">]
 type Home() =
@@ -17,8 +21,16 @@ type Home() =
     logger.LogInformation("Clicked! {newValue}", newValue)
     update newValue
 
+  let onGetDatabase (logger: ILogger) (db: IDatabaseService) _ =
+    valueTaskUnit {
+      let! name = db.GetDatabaseName()
+      logger.LogInformation("Database name: {name}", name)
+    }
+    |> ignore
+
+
   override _.Render() =
-    html.inject (fun (logger: ILogger<Home>) -> main {
+    html.inject (fun (logger: ILogger<Home>, db: IDatabaseService) -> main {
       adaptiview () {
         let! counter, setCounter = cval(0).WithSetter()
 
@@ -27,23 +39,35 @@ type Home() =
           href "/about"
           "About"
         }
+
         br
+
         NavLink'() {
           Match NavLinkMatch.All
           href "/edit"
           "New Post"
         }
+
         br
+
         NavLink'() {
           Match NavLinkMatch.All
           href "/edit/a123-s23"
           "Edit Post 'a123-s23'"
         }
+
         br
 
         button {
           onclick (onClick logger counter setCounter)
           $"Click me {counter}"
+        }
+
+        br
+
+        button {
+          onclick (onGetDatabase logger db)
+          $"Get Database!"
         }
       }
     })
