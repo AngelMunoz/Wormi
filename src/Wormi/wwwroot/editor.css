@@ -1,0 +1,44 @@
+.editor-main {
+  --editor-font-color: #0c0c0c;
+  --editor-background-color: #333;
+  --editor-font-size: 1.2rem;
+  --editor-font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --editor-shadow-box: 7px 7px 8px 0 rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  margin: auto;
+  justify-content: space-evenly;
+  font-family: var(--editor-font-family);
+  font-size: var(--editor-font-size);
+  color: var(--editor-font-color);
+}
+
+.editor-main section {
+  padding: 1em;
+  max-width: 50%;
+  min-width: 30%;
+  background-color: var(--editor-background-color);
+  box-shadow: var(--editor-shadow-box);
+}
+
+.editor-main .editor {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  resize: none;
+  color: var(--editor-font-color);
+  font-size: var(--editor-font-size);
+  font-family: var(--editor-font-family);
+}
+
+.editor-main .preview {
+  overflow-wrap: break-word;
+}
+
+@media (prefers-color-scheme: dark) {
+  .editor-main {
+    --editor-font-color: #cecece;
+    --editor-background-color: #333;
+    --editor-shadow-box: 7px 7px 8px 0 rgba(255, 255, 255, 0.5);
+  }
+}
