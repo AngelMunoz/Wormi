@@ -6,7 +6,10 @@ open Fun.Blazor
 type MainLayout() as this =
   inherit LayoutComponentBase()
 
-  let content = article { main { this.Body } }
+  let content = div {
+    class' "wormi-app"
+    this.Body
+  }
 
   override _.BuildRenderTree(builder) =
     content.Invoke(this, builder, 0) |> ignore
