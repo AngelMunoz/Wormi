@@ -14,4 +14,12 @@ type Editor() =
   member val PostId = String.Empty with get, set
 
 
-  override self.Render() = Editor.Editor "Hello World"
+  override self.Render() =
+    Editor.Editor {
+      id = ""
+      title = ""
+      content = ""
+      metadata = ValueNone
+      updated_at = ValueNone
+      created_at = DateTime.Now
+    }

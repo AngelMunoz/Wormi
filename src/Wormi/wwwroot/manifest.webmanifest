@@ -19,12 +19,6 @@
             "short_name": "New Post"
         }
     ],
-    "protocol_handlers": [
-        {
-            "protocol": "web+wormi",
-            "url": "/posts/new"
-        }
-    ],
     "share_target": {
         "action": "/import",
         "method": "POST",
