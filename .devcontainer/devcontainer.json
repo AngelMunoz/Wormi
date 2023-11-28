@@ -35,5 +35,5 @@
         44390
     ],
     // Use 'postCreateCommand' to run commands after the container is created.
-    "postStartCommand": "dotnet tool restore && dotnet build"
+    "postCreateCommand": "dotnet tool restore && dotnet build"
 }
