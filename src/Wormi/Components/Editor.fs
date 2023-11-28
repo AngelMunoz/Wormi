@@ -6,67 +6,66 @@ open FSharp.Data.Adaptive
 open Fun.Blazor
 
 open Wormi
+open Wormi.Services.Markdown
 
-module Markdown =
-  open Markdig
-
-  let pipeline =
-    lazy
-      (MarkdownPipelineBuilder()
-        .UseAdvancedExtensions()
-        .UseSmartyPants()
-        .Build())
-
-  let ToHtml (markdown: string) =
-    Markdown.ToHtml(markdown, pipeline.Value)
+type EditorModel = { content: string }
 
 
-module Editor =
+type Editor =
 
 
+  static member Editor
+    (
+      post: Post,
+      ?markAsDraft: string -> unit,
+      ?markDirty: bool -> unit
+    ) =
+    let markDirty = defaultArg markDirty ignore
+    let markAsDraft = defaultArg markAsDraft ignore
 
-  let Toolbar () = nav { "toolbar" }
+    html.comp (
+      post._id,
+      fun (markdown: IMarkdownRenderer, hook: IComponentHook) ->
+        let editorForm =
+          hook.UseAdaptiveForm<EditorModel, string>({ content = post.content })
 
-  let Editor (post: Post) =
-    let initial = post.content
-    let content = cval (post.content)
+        editorForm.UseHasChanges()
+        |> AVal.addLazyCallback (fun value -> markDirty value)
+        |> hook.AddDispose
 
-    adaptiview () {
-      let! text, setText = content.WithSetter()
-      let! dirty = content |> AVal.map (fun content -> content <> initial)
-
-      article {
-        link {
-          rel "stylesheet"
-          stylesheet "/editor.css"
-        }
-
-        header {
-          region {
-            if dirty then
-              section { "There are unsaved changes." }
-          }
-        }
-
-        main {
+        article {
           class' "editor-main"
 
-          section {
-            textarea {
-              class' "editor"
-              oninput (fun e -> setText (e.Value :?> string))
+          header {
+            adaptiview () {
+              let! hasChanges = editorForm.UseHasChanges()
+
+              region {
+                if hasChanges then
+                  "You have unsaved changes"
+                else
+                  String.Empty
+              }
             }
           }
 
-          section {
-            class' "preview"
-            childContentRaw (Markdown.ToHtml(text))
+          adaptiview () {
+            let! postContent, setContent =
+              editorForm.UseField(fun m -> m.content)
+
+            section {
+              textarea {
+                class' "editor"
+                oninput (fun e -> setContent (unbox<string> e.Value))
+                onblur (fun _ -> markAsDraft postContent)
+                postContent
+              }
+            }
+
+            section {
+              class' "preview"
+              childContentRaw (markdown.RenderHtml postContent)
+            }
           }
         }
-
-
-
-
-      }
-
-    }
+    )

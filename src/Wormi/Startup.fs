@@ -3,15 +3,18 @@
 open System
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.AspNetCore.Components.WebAssembly.Hosting
-open Fun.Blazor
 open Wormi
 open Wormi.Services
+open Wormi.Services.Markdown
 
 let builder =
   WebAssemblyHostBuilder.CreateDefault(Environment.GetCommandLineArgs())
 
 builder.RootComponents.Add<Routes>("#app")
-builder.Services.AddSingleton<IDatabaseService, DatabaseService>()
+
+builder.Services
+  .AddSingleton<IDatabaseService, DatabaseService>()
+  .AddSingleton<IMarkdownRenderer>(fun _ -> Markdown.factory ())
 
 builder.Services.AddFunBlazorWasm()
 

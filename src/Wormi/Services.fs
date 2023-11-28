@@ -25,3 +25,24 @@ type DatabaseService(js: IJSRuntime) =
       let! db = jsModule.Value
       return! db.DisposeAsync()
     }
+
+module Markdown =
+  open Markdig
+
+  type IMarkdownRenderer =
+    abstract member RenderHtml: string -> string
+
+  type Markdown =
+    static member inline factory(?pipeline) =
+      let pipeline =
+        defaultArg
+          pipeline
+          (MarkdownPipelineBuilder()
+            .UseAdvancedExtensions()
+            .UseSmartyPants()
+            .Build())
+
+      { new IMarkdownRenderer with
+          member _.RenderHtml(markdown: string) =
+            Markdown.ToHtml(markdown, pipeline)
+      }

@@ -10,10 +10,19 @@ type PostMetadata = {
   slug: string
 }
 
+[<Struct>]
+type PostStatus =
+  | Draft
+  | InProgress
+  | ReadyForReview
+  | Finished
+
 type Post = {
-  id: string
+  _id: string
+  _rev: string voption
   title: string
   content: string
+  status: PostStatus
   metadata: PostMetadata voption
   updated_at: DateTime voption
   created_at: DateTime
