@@ -7,25 +7,28 @@
 
   display: flex;
   margin: auto;
-  justify-content: space-evenly;
+  flex-direction: column;
   font-family: var(--editor-font-family);
   font-size: var(--editor-font-size);
   color: var(--editor-font-color);
 }
 
-.editor-main section {
-  padding: 1em;
-  max-width: 50%;
-  min-width: 30%;
-  background-color: var(--editor-background-color);
-  box-shadow: var(--editor-shadow-box);
+.editor-main .editor-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  color: var(--editor-font-color);
+  font-size: var(--editor-font-size);
+  font-family: var(--editor-font-family);
 }
 
 .editor-main .editor {
   width: 100%;
   height: 100%;
-  background-color: transparent;
   resize: none;
+  background-color: transparent;
   color: var(--editor-font-color);
   font-size: var(--editor-font-size);
   font-family: var(--editor-font-family);

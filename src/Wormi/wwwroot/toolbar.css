@@ -1,0 +1,26 @@
+.editor-main .editor-toolbar-button {
+  background-color: transparent;
+  border: none;
+  color: var(--editor-font-color);
+  font-size: var(--editor-font-size);
+  font-family: var(--editor-font-family);
+}
+
+.editor-main .editor-toolbar-button-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  color: var(--editor-font-color);
+  font-size: var(--editor-font-size);
+  font-family: var(--editor-font-family);
+  list-style: none;
+}
+
+.editor-main .editor-toolbar {
+  display: flex;
+  justify-content: space-evenly;
+}

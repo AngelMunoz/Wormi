@@ -8,6 +8,7 @@
     <Compile Include="Types.fs" />
     <Compile Include="Services.fs" />
     <Compile Include="Components/Navbar.fs" />
+    <Compile Include="Components\EditorToolbar.fs" />
     <Compile Include="Components/Editor.fs" />
     <Compile Include="Pages/Home.fs" />
     <Compile Include="Pages/About.fs" />
