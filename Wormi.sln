@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E0525773-57D
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Wormi", "src\Wormi\Wormi.fsproj", "{07E5ED44-6AB9-4C5A-9D8A-1AD259760B69}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Wormi.JS", "src\Wormi.JS\Wormi.JS.fsproj", "{B1BE9C05-C12D-4068-B2A3-12FF2AFD17FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,8 +22,13 @@ Global
 		{07E5ED44-6AB9-4C5A-9D8A-1AD259760B69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07E5ED44-6AB9-4C5A-9D8A-1AD259760B69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07E5ED44-6AB9-4C5A-9D8A-1AD259760B69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1BE9C05-C12D-4068-B2A3-12FF2AFD17FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1BE9C05-C12D-4068-B2A3-12FF2AFD17FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1BE9C05-C12D-4068-B2A3-12FF2AFD17FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1BE9C05-C12D-4068-B2A3-12FF2AFD17FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{07E5ED44-6AB9-4C5A-9D8A-1AD259760B69} = {E0525773-57DB-45E0-89FF-CF71ACEDFDDB}
+		{B1BE9C05-C12D-4068-B2A3-12FF2AFD17FA} = {E0525773-57DB-45E0-89FF-CF71ACEDFDDB}
 	EndGlobalSection
 EndGlobal

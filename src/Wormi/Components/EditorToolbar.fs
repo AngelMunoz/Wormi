@@ -5,30 +5,13 @@ open Microsoft.AspNetCore.Components
 open FSharp.Data.Adaptive
 open Fun.Blazor
 
-[<Struct>]
-type ToolbarFeature =
-  | Undo
-  | Redo
-  | Bold
-  | Italic
-  | Strikethrough
-  | Heading of int
-  | Highlight
-  | Indent
-  | Outdent
-  | List
-  | Link
-  | Quote
-  | Image
-  | Code
-  | CodeBlock
-  | HorizontalRule
+open Wormi
 
 type Toolbar =
   static member ToolbarButton
     (
-      feature: ToolbarFeature,
-      ?onFeature: ToolbarFeature -> unit,
+      feature: EditorTextFeatures,
+      ?onFeature: EditorTextFeatures -> unit,
       ?title: string,
       ?isEnabled: bool
     ) =
@@ -44,8 +27,6 @@ type Toolbar =
       region {
         // TODO: Use the correct SVG icons
         match feature with
-        | Undo -> "↶"
-        | Redo -> "↷"
         | Bold -> "B"
         | Italic -> "I"
         | Strikethrough -> "S"
@@ -56,16 +37,10 @@ type Toolbar =
         | Heading 5 -> "H5"
         | Heading 6 -> "H6"
         | Highlight -> "H"
-        | Indent -> "→"
-        | Outdent -> "←"
-        | List -> "-"
-        | Link -> "🔗"
         | Quote -> "“”"
-        | Image -> "🖼"
-        | Code -> "<>"
-        | CodeBlock -> "```"
         | HorizontalRule -> "HR"
-        | _ -> title
+        | CodeBlock(language) -> ""
+        | Heading(size) -> ""
       }
 
       title
@@ -73,9 +48,9 @@ type Toolbar =
 
   static member ToolbarButtonGroup
     (
-      buttons: ToolbarFeature list,
-      ?onFeature: ToolbarFeature -> unit,
-      ?isEnabled: ToolbarFeature -> bool
+      buttons: EditorTextFeatures list,
+      ?onFeature: EditorTextFeatures -> unit,
+      ?isEnabled: EditorTextFeatures -> bool
     ) =
     let onFeature = defaultArg onFeature ignore
     let isEnabled = defaultArg isEnabled (fun _ -> true)
@@ -95,20 +70,14 @@ type Toolbar =
 
   static member Create
     (
-      ?onFeature: ToolbarFeature -> unit,
-      ?isEnabled: ToolbarFeature -> bool
+      ?onFeature: EditorTextFeatures -> unit,
+      ?isEnabled: EditorTextFeatures -> bool
     ) =
     let onFeature = defaultArg onFeature ignore
     let isEnabled = defaultArg isEnabled (fun _ -> true)
 
     section {
       class' "editor-toolbar"
-
-      Toolbar.ToolbarButtonGroup(
-        [ Undo; Redo ],
-        onFeature = onFeature,
-        isEnabled = isEnabled
-      )
 
       Toolbar.ToolbarButtonGroup(
         [ Bold; Italic; Strikethrough ],
@@ -123,19 +92,7 @@ type Toolbar =
       )
 
       Toolbar.ToolbarButtonGroup(
-        [ Highlight; Indent; Outdent; HorizontalRule ],
-        onFeature = onFeature,
-        isEnabled = isEnabled
-      )
-
-      Toolbar.ToolbarButtonGroup(
-        [ List; Link; Quote; Image ],
-        onFeature = onFeature,
-        isEnabled = isEnabled
-      )
-
-      Toolbar.ToolbarButtonGroup(
-        [ Code; CodeBlock ],
+        [ Quote; Highlight; HorizontalRule ],
         onFeature = onFeature,
         isEnabled = isEnabled
       )

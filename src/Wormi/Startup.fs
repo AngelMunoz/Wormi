@@ -14,6 +14,7 @@ builder.RootComponents.Add<Routes>("#app")
 
 builder.Services
   .AddSingleton<IDatabaseService, DatabaseService>()
+  .AddSingleton<ITextAreaService, TextAreaService>()
   .AddSingleton<IMarkdownRenderer>(fun _ -> Markdown.factory ())
 
 builder.Services.AddFunBlazorWasm()

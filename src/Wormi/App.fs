@@ -2,6 +2,7 @@ namespace Wormi
 
 open Microsoft.AspNetCore.Components
 open Fun.Blazor
+open Wormi.JS
 
 type MainLayout() as this =
   inherit LayoutComponentBase()

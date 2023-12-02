@@ -1,4 +1,5 @@
 .editor-main .editor-toolbar-button {
+  cursor: pointer;
   background-color: transparent;
   border: none;
   color: var(--editor-font-color);
