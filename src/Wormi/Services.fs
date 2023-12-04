@@ -1,60 +1,99 @@
 namespace Wormi.Services
 
 open System.Threading.Tasks
+open Microsoft.Extensions.DependencyInjection
 open Microsoft.JSInterop
 open IcedTasks
 open System
 
 
-type ITextAreaService =
-
-  abstract actOnTxtArea: selector: string * payload: string -> ValueTask<string>
 
 
-type TextAreaService(js: IJSRuntime) =
+module TextArea =
+  type ITextAreaService =
 
-  let jsModule =
-    lazy
-      (js.InvokeAsync<IJSObjectReference>("import", Wormi.ModuleNames.Library))
+    abstract actOnTxtArea:
+      selector: string * payload: string -> ValueTask<string>
 
-  interface ITextAreaService with
-    member _.actOnTxtArea(selector, payload) = valueTask {
-      let! db = jsModule.Value
 
-      return!
-        db.InvokeAsync<string>(
-          Wormi.JS.Library.ExportedNames.ActOnTextArea,
-          selector,
-          payload
-        )
+  let factory (services: IServiceProvider) =
+    let js = services.GetRequiredService<IJSRuntime>()
+
+    let jsModule =
+      lazy
+        (js.InvokeAsync<IJSObjectReference>("import", Wormi.ModuleNames.Library))
+
+    { new ITextAreaService with
+        member _.actOnTxtArea(selector, payload) = valueTask {
+          let! db = jsModule.Value
+
+          return!
+            db.InvokeAsync<string>(
+              Wormi.JS.Library.ExportedNames.ActOnTextArea,
+              selector,
+              payload
+            )
+        }
+
+      interface IAsyncDisposable with
+        member _.DisposeAsync() = valueTaskUnit {
+          let! db = jsModule.Value
+          return! db.DisposeAsync()
+        }
     }
 
-  interface IAsyncDisposable with
-    member _.DisposeAsync() = valueTaskUnit {
-      let! db = jsModule.Value
-      return! db.DisposeAsync()
+module LocalStorage =
+  open Microsoft.Extensions.Logging
+
+  type ILocalStorageService =
+
+    abstract member ExtractFromStorage: unit -> ValueTask<string voption>
+    abstract member SaveToStorage: string -> ValueTask
+
+  let factory (services: IServiceProvider) =
+    let js = services.GetRequiredService<IJSRuntime>()
+    let logger = services.GetRequiredService<ILogger<ILocalStorageService>>()
+
+    let jsModule =
+      lazy
+        (js.InvokeAsync<IJSObjectReference>("import", Wormi.ModuleNames.Browser))
+
+    { new ILocalStorageService with
+        member _.ExtractFromStorage() = valueTask {
+          let! db = jsModule.Value
+          logger.LogDebug("Extracting from storage")
+
+          try
+
+            let! result =
+              db.InvokeAsync<string voption>(
+                Wormi.JS.Browser.ExportedNames.ExtractFromStorage
+              )
+
+            logger.LogDebug("Extracted from storage: {result}", result)
+            return result
+          with ex ->
+            logger.LogError("Failed to extract from storage: {ex}", ex)
+            return! ValueTask.FromResult(ValueNone)
+        }
+
+        member _.SaveToStorage(value: string) = valueTaskUnit {
+          let! db = jsModule.Value
+
+          do!
+            db.InvokeVoidAsync(
+              Wormi.JS.Browser.ExportedNames.SaveToStorage,
+              value
+            )
+        }
+
+      interface IAsyncDisposable with
+        member _.DisposeAsync() = valueTaskUnit {
+          let! db = jsModule.Value
+          return! db.DisposeAsync()
+        }
     }
 
-
-type IDatabaseService =
-  abstract member GetDatabaseName: unit -> ValueTask<string>
-
-type DatabaseService(js: IJSRuntime) =
-
-  let jsModule =
-    lazy (js.InvokeAsync<IJSObjectReference>("import", "./js/database.js"))
-
-  interface IDatabaseService with
-    member _.GetDatabaseName() = valueTask {
-      let! db = jsModule.Value
-      return! db.InvokeAsync<string>("GetDatabaseName")
-    }
-
-  interface IAsyncDisposable with
-    member _.DisposeAsync() = valueTaskUnit {
-      let! db = jsModule.Value
-      return! db.DisposeAsync()
-    }
 
 module Markdown =
   open Markdig

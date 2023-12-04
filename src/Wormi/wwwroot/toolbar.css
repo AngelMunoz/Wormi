@@ -19,9 +19,11 @@
   font-size: var(--editor-font-size);
   font-family: var(--editor-font-family);
   list-style: none;
+  flex-wrap: wrap;
 }
 
 .editor-main .editor-toolbar {
   display: flex;
   justify-content: space-evenly;
+  flex-wrap: wrap;
 }

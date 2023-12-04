@@ -61,9 +61,23 @@
 .loading-progress-text:after {
   content: var(--blazor-load-percentage-text, "Loading");
 }
+
+:root {
+  --wo-accent: #5c4a4a;
+  --wo-bg-color: #fce9e9;
+  --wo-foreground: #2b2121;
+  --wo-link-color: #e0e0e0;
+  --wo-link-visited-color: var(--wo-accent);
+  --wo-nav-item-active: 0 0 8px 1px var(--wo-accent);
+}
+
 body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   margin: 0;
   padding: 0;
+  background-color: var(--wo-bg-color);
+  color: var(--wo-foreground);
 }
 .wormi-app {
   margin: 0;
@@ -71,19 +85,27 @@ body {
   overflow: auto;
   display: flex;
   flex-direction: column;
-  background-color: #e0e0e0;
+}
+.page {
+  padding: 8vw;
+}
+
+a {
+  color: var(--wo-link-color);
+}
+
+a:visited {
+  color: var(--wo-link-visited-color);
+}
+:has(> a.active) {
+  box-shadow: var(--wo-nav-item-active);
 }
 
 @media (prefers-color-scheme: dark) {
-  .wormi-app {
-    background-color: #121212;
-    color: #e0e0e0;
-  }
-
-  a {
-    color: #e0e0e0;
-  }
-  a:visited {
-    color: #b255bb;
+  :root {
+    --wo-accent: #bba2a2;
+    --wo-bg-color: #181717;
+    --wo-foreground: #fce9e9;
+    --wo-link-color: #5c4a4a;
   }
 }

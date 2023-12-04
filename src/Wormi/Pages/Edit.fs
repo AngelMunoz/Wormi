@@ -18,24 +18,4 @@ type Editor() =
   [<Inject>]
   member val Logger = Unchecked.defaultof<ILogger<Editor>> with get, set
 
-  override self.Render() =
-    let post = {
-      _id = System.Guid.NewGuid().ToString()
-      _rev = ValueNone
-      title = ""
-      content = ""
-      status = PostStatus.InProgress
-      metadata = ValueNone
-      updated_at = ValueNone
-      created_at = DateTime.Now
-    }
-
-    Editor.Editor(
-      post,
-      markAsDraft =
-        (fun newContent ->
-          self.Logger.LogInformation("Saving draft: {content}", newContent)),
-      markDirty =
-        (fun isDirty ->
-          (self.Logger.LogInformation("Is dirty: {isDirty}", isDirty)))
-    )
+  override self.Render() = fragment { h1 { "Editor" } }
